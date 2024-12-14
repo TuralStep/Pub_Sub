@@ -1,0 +1,42 @@
+﻿@model Pub_Sub.Models.ChatViewModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <div class="modal-body row">
+        <div class="col-md-4">
+            <form asp-controller="Home" asp-action="AddChannel" method="post">
+                <input class="input col-md-5" asp-for="addChannel"/>
+                <button class="btn-primary"type="submit">Create channel</button>
+            </form>
+            <div class="row-cols-1" id="channelList">
+                @foreach (var item in Model.Chats)
+                {
+                    var color = "white";
+                    @if (item.ChannelName == Model.chat.ChannelName){
+                        color = "brown";
+                    }
+                    <div style="background-color:@color">
+                        <a asp-controller="Home" asp-action="ChannelClick" asp-route-name="@item.ChannelName">@item.ChannelName</a>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div>
+                @if (Model.chat.Messages != null)
+                {
+                    @foreach (var item in Model.chat.Messages)
+                    {
+                        <h5 style="text-align:right">@item</h5>
+                    }
+                }
+            </div>
+            <form asp-controller="Home" asp-action="SendMsg" method="post">
+                <input type="text" asp-for="sendMsg">
+                <button class="btn-primary" type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+</div>
